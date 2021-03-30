@@ -1,0 +1,113 @@
+query(1)#################################################
+
+
+
+ SELECT
+	COURSE_ID,
+	COURSE_TITLE,
+                  SUBJECT,
+	RANK () OVER ( 
+		ORDER BY NUM_REVIEWS DESC
+	) rank_column 
+ FROM
+	"WILEY_DB"."PUBLIC"."COURSE_DIM";
+
+
+
+
+query(2)#######################################################
+
+
+   select d.NUM_SUBSCRIBERS,d.COURSE_ID,d2.COURSE_TITLE,d2.LEVEL from
+  "WILEY_DB"."PUBLIC"."SALES"  as d join "WILEY_DB"."PUBLIC"."COURSE_DIM" as d2 where d2.LEVEL = 'All Levels' and  d.NUM_SUBSCRIBERS  < 100
+
+
+
+query(3)########################################################
+
+
+SELECT
+	COURSE_ID,
+	COURSE_TITLE,
+        NUM_REVIEWS ,
+        SUBJECT,
+        LEVEL,
+		RANK () OVER ( 
+			PARTITION BY LEVEL
+			ORDER BY NUM_REVIEWS  DESC
+		) price_rank 
+FROM
+	"WILEY_DB"."PUBLIC"."COURSE_DIM";
+
+
+query(4)##########################################################
+
+
+    
+    SELECT 
+    COURSE_ID,
+	COURSE_TITLE,
+    SUBJECT,
+    NUM_REVIEWS,
+    CUME_DIST() OVER (
+        PARTITION BY  LEVEL
+        ORDER BY CONTENT_DURATION DESC
+    ) cume_dist
+FROM "WILEY_DB"."PUBLIC"."COURSE_DIM"
+
+
+query(4)##########################################################
+
+    
+    SELECT 
+    COURSE_ID,
+	COURSE_TITLE,
+    SUBJECT,
+    NUM_REVIEWS,
+    CUME_DIST() OVER (
+        PARTITION BY  LEVEL
+        ORDER BY CONTENT_DURATION DESC
+    ) cume_dist
+FROM "WILEY_DB"."PUBLIC"."COURSE_DIM"
+
+query(5)#########################################################
+
+
+select d.IS_PAID,d.PRICE,d2.SUBJECT,d2.COURSE_TITLE,d2.LEVEL from 
+ "WILEY_DB"."PUBLIC"."PAYMENT_DIM" as d join "WILEY_DB"."PUBLIC"."COURSE_DIM" as d2 
+ where d.IS_PAID = FALSE  and  d2.LEVEL = 'All Levels'
+
+
+
+
+query(6)########################################################
+
+SELECT
+	COURSE_ID,
+	COURSE_TITLE,
+    NUM_REVIEWS,
+    SUBJECT,
+	PERCENT_RANK () OVER ( 
+		ORDER BY NUM_LECTURES DESC
+	) presentage_rank 
+FROM
+	"WILEY_DB"."PUBLIC"."COURSE_DIM";
+
+query(7)########################################################
+
+
+select d.DATE_ID,d.YEAR,d.MONTH,d2.AUTHOR_ID,d2.AUTHOR_FNAME from
+"WILEY_DB"."PUBLIC"."DATE_DIM" as d join "WILEY_DB"."PUBLIC"."AUTHOR_DIM" as d2  where YEAR <'2015' AND  MONTH = '12'
+
+
+
+
+
+
+
+
+
+
+
+
+
